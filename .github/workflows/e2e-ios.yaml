@@ -14,15 +14,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
-          cache: yarn
+          node-version: 20.x
+          cache: npm
       - name: Install IDB
         run: |
           brew tap facebook/fb
           brew install idb-companion
 
       - name: Install dependencies
-        run: yarn
+        run: npm
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
@@ -38,7 +38,7 @@ jobs:
           xcrun simctl install booted ios/build/Build/Products/Release-iphonesimulator/expomaestroactions.app
 
       - name: Run Maestro
-        run: maestro test e2e
+        run: maestro test maestro/test.yml
         env:
           MAESTRO_DRIVER_STARTUP_TIMEOUT: 100000
       - name: Upload artifacts
