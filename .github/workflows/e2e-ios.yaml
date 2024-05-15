@@ -22,7 +22,7 @@ jobs:
           brew install idb-companion
 
       - name: Install dependencies
-        run: npm
+        run: npm install
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
