@@ -1,0 +1,6 @@
+# flow.yaml
+
+appId: com.thomascscannable.expomaestroactions
+---
+- launchApp
+- tapOn: "Maestro"
