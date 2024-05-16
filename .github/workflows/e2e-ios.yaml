@@ -45,9 +45,9 @@ jobs:
         working-directory: ./ios
         run: pod install --repo-update
 
-      - name: Build iOS
-        working-directory: ./ios
-        run: xcodebuild -workspace ./expomaestroactions.xcworkspace -scheme expomaestroactions -configuration Release -sdk iphonesimulator -derivedDataPath build -arch "$(uname -m)"
+      # - name: Build iOS
+      #   working-directory: ./ios
+      #   run: xcodebuild -workspace ./expomaestroactions.xcworkspace -scheme expomaestroactions -configuration Release -sdk iphonesimulator -derivedDataPath build -arch "$(uname -m)"
 
       - name: Run Simulator
         uses: futureware-tech/simulator-action@v3
@@ -55,6 +55,9 @@ jobs:
           model: "iPhone 15"
           os_version: 17.4
           erase_before_boot: false
+
+      - name: Run iOS
+        run: npx expo run:ios
 
       - name: Run Maestro
         run: maestro test maestro/test.yml
