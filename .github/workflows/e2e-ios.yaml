@@ -56,6 +56,13 @@ jobs:
           os_version: 17.4
           erase_before_boot: false
 
+      - name: Wait for Simulator
+        run: sleep 30 # Wait for 30 seconds to ensure the simulator is fully up
+
+      - name: Check Simulator Status
+        run: |
+          xcrun simctl list | grep 'iPhone 15' || { echo "Simulator not found!"; exit 1; }
+
       - name: Run iOS
         run: npx expo run:ios
 
