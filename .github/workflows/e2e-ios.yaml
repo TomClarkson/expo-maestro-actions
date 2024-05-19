@@ -49,6 +49,12 @@ jobs:
         working-directory: ./ios
         run: xcodebuild -workspace ./expomaestroactions.xcworkspace -scheme expomaestroactions -configuration Release -sdk iphonesimulator -derivedDataPath build -arch "$(uname -m)"
 
+      - name: 📸 Upload builds
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-build
+          path: ios/build/Build/Products/Release-iphonesimulator/expomaestroactions.app
+
       - name: Run Simulator
         uses: futureware-tech/simulator-action@v3
         with:
@@ -66,10 +72,14 @@ jobs:
       - name: Run iOS
         run: xcrun simctl install booted ios/build/Build/Products/Release-iphonesimulator/expomaestroactions.app
 
+      - name: Wait for Simulator
+        run: sleep 90 # Wait for 90 seconds to ensure the simulator is fully up
+
       - name: Run Maestro
         run: maestro test maestro/test.yml
         env:
-          MAESTRO_DRIVER_STARTUP_TIMEOUT: 100000
+          MAESTRO_DRIVER_STARTUP_TIMEOUT: 300000
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         if: always()
