@@ -45,15 +45,15 @@ jobs:
         working-directory: ./ios
         run: pod install --repo-update
 
-      # - name: Build iOS
-      #   working-directory: ./ios
-      #   run: xcodebuild -workspace ./expomaestroactions.xcworkspace -scheme expomaestroactions -configuration Release -sdk iphonesimulator -derivedDataPath build -arch "$(uname -m)"
+      - name: Build iOS
+        working-directory: ./ios
+        run: xcodebuild -workspace ./expomaestroactions.xcworkspace -scheme expomaestroactions -configuration Release -sdk iphonesimulator -derivedDataPath build -arch "$(uname -m)"
 
       - name: Run Simulator
         uses: futureware-tech/simulator-action@v3
         with:
           model: "iPhone 15"
-          os_version: 17.4
+          os_version: 17
           erase_before_boot: false
 
       - name: Wait for Simulator
@@ -64,7 +64,7 @@ jobs:
           xcrun simctl list | grep 'iPhone 15' || { echo "Simulator not found!"; exit 1; }
 
       - name: Run iOS
-        run: npx expo run:ios
+        run: xcrun simctl install booted ios/build/Build/Products/Release-iphonesimulator/expomaestroactions.app
 
       - name: Run Maestro
         run: maestro test maestro/test.yml
